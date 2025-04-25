@@ -1,0 +1,23 @@
+{
+  "name": "web-accessibility-widget",
+  "version": "1.0.0",
+  "description": "Ein umfassendes Barrierefreiheits-Widget für Webseiten",
+  "main": "accessibility-widget.js",
+  "keywords": [
+    "accessibility",
+    "widget",
+    "a11y",
+    "web",
+    "barrierefreiheit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dein-username/web-accessibility-widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dein-username/web-accessibility-widget/issues"
+  },
+  "homepage": "https://github.com/dein-username/web-accessibility-widget#readme"
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Widget Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            color: #4A6CF7;
+        }
+        h2 {
+            margin-top: 40px;
+            color: #333;
+        }
+        .feature {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #4A6CF7;
+        }
+        .feature h3 {
+            margin-top: 0;
+            color: #4A6CF7;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4A6CF7;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
+    </style>
+</head>
+<body id="demo-website">
+    <header>
+        <h1>Accessibility Widget Demo</h1>
+        <p>Diese Seite demonstriert die Funktionalität des Accessibility Widgets.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Über das Accessibility Widget</h2>
+            <p>Das Accessibility Widget ist ein leichtgewichtiges, anpassbares Tool zur Verbesserung der Barrierefreiheit auf Webseiten. Es bietet Benutzern verschiedene Anpassungsmöglichkeiten, um Webinhalte gemäß ihrer individuellen Bedürfnisse anzuzeigen.</p>
+            
+            <div class="feature">
+                <h3>Einfache Integration</h3>
+                <p>Das Widget lässt sich mit nur einer Zeile Code in jede Webseite einbinden:</p>
+                <code>&lt;script src="accessibility-widget.min.js"&gt;&lt;/script&gt;</code>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Hauptfunktionen</h2>
+            
+            <div class="feature">
+                <h3>Inhaltsanpassungen</h3>
+                <p>Passen Sie die Darstellung von Inhalten an:</p>
+                <ul>
+                    <li>Schriftgröße ändern</li>
+                    <li>Zeilenhöhe anpassen</li>
+                    <li>Buchstabenabstand anpassen</li>
+                    <li>Helvetica-Schriftart verwenden</li>
+                    <li>Textausrichtung ändern</li>
+                    <li>Überschriften hervorheben</li>
+                    <li>Links hervorheben</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>Farbanpassungen</h3>
+                <p>Optimieren Sie die Farbdarstellung:</p>
+                <ul>
+                    <li>Dunkler Kontrast</li>
+                    <li>Heller Kontrast</li>
+                    <li>Hoher Kontrast</li>
+                    <li>Hohe und niedrige Sättigung</li>
+                    <li>Monochrom-Modus</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>Orientierungshilfen</h3>
+                <p>Verbessern Sie die Navigation und Orientierung:</p>
+                <ul>
+                    <li>Lesemaske</li>
+                    <li>Lesehilfe</li>
+                    <li>Animationen stoppen</li>
+                    <li>Fokussierte Elemente hervorheben</li>
+                    <li>Verschiedene Cursor-Optionen</li>
+                    <li>Hover-Hervorhebung</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Bilder und Multimedia</h2>
+            <p>Das Widget kann auch Anpassungen für Bilder und Multimedia-Inhalte vornehmen:</p>
+            
+            <img src="https://placehold.co/600x400?text=Beispielbild" alt="Ein Beispielbild zum Testen der Bilderausblendung">
+            
+            <p>Mit der Funktion "Bilder ausblenden" können Benutzer, die durch visuelle Inhalte abgelenkt werden, alle Bilder auf der Seite verbergen.</p>
+        </section>
+        
+        <section>
+            <h2>Weiterlesen</h2>
+            <p>Das Accessibility Widget bietet noch viele weitere Funktionen zur Verbesserung der Zugänglichkeit von Webseiten.</p>
+            <a href="https://github.com/dein-benutzername/accessibility-widget" class="btn">GitHub Repository besuchen</a>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Accessibility Widget. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <!-- Das Accessibility Widget einbinden -->
+    <script>
+        // Optionale Konfiguration
+        window.AccessibilityWidgetConfig = {
+            // Hier können Anpassungen vorgenommen werden
+        };
+    </script>
+    <script src="accessibility-widget.min.js"></script>
+</body>
+</html>

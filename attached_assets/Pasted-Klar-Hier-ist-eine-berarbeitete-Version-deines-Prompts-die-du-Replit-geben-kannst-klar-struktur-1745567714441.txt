@@ -1,0 +1,69 @@
+Klar! Hier ist eine überarbeitete Version deines Prompts, die du Replit geben kannst – klar strukturiert, professionell formuliert und mit Fokus auf Barrierefreiheit, moderne UI sowie einfache Integration via GitHub und Webflow:
+
+---
+
+**Prompt für Replit:**
+
+Bitte entwickle ein **barrierefreies Plugin / Widget für Webseiten**, das ich auf **GitHub hosten** kann und über ein **einfaches Script-Tag in Webflow-Seiten** integrierbar ist. 
+
+Nach dem Einfügen des Script-Tags auf einer Webflow-Seite soll sich ein **modernes, nutzerfreundliches Interface** öffnen, über das User:innen individuelle Barrierefreiheits-Einstellungen für die jeweilige Website vornehmen können. Das UI soll dabei responsiv, zugänglich und optisch ansprechend gestaltet sein.
+
+Das Plugin soll folgende Funktionen in drei Kategorien enthalten:
+
+---
+
+### **1. Content Adjustments (Inhaltliche Anpassungen)**
+
+- Inhalt skalieren (Content Scaling)
+- Schriftart ändern auf Helvetica
+- Überschriften hervorheben
+- Links hervorheben
+- Text-Lupe beim Hover über Text
+- Schriftgröße erhöhen/verringern
+- Zeilenhöhe erhöhen/verringern
+- Buchstabenabstand erhöhen/verringern
+- Text zentrieren
+- Text linksbündig ausrichten
+- Text rechtsbündig ausrichten
+
+---
+
+### **2. Color Adjustments (Farbmodi)**
+
+- Dunkelkontrast aktivieren
+- Hellkontrast aktivieren
+- Hoher Kontrast aktivieren
+- Hohe Sättigung aktivieren
+- Monochrom-Modus aktivieren
+- Geringe Sättigung aktivieren
+
+---
+
+### **3. Orientation Adjustments (Orientierungshilfen)**
+
+- Alle Töne stummschalten
+- Alle Bilder ausblenden
+- Lesemaske aktivieren
+- Lesehilfe (Guideline) aktivieren
+- Alle Animationen stoppen
+- Fokus hervorheben
+- Großer schwarzer Cursor
+- Großer weißer Cursor
+- Hover-Hervorhebung aktivieren
+
+---
+
+Zusätzlich soll ein **"Zurücksetzen"-Button** vorhanden sein, der **mittels der Tastenkombination `Alt + L`** alle Einstellungen auf die Standardwerte zurücksetzt.
+
+---
+
+**Technische Hinweise:**
+
+- Das Plugin sollte mit Vanilla JS, HTML und CSS (oder Framework deiner Wahl) erstellt sein.
+- Es soll unabhängig funktionieren, keine externen Abhängigkeiten erfordern.
+- Alle Funktionen sollen auf beliebigen Webseiten zuverlässig laufen.
+- Das gesamte Projekt soll als GitHub-Repository exportierbar sein.
+
+---
+
+Wenn du willst, kann ich dir auch helfen, ein passendes README oder die GitHub-Doku zu formulieren. Sag einfach Bescheid!
