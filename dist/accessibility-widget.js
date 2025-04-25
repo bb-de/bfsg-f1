@@ -289,18 +289,22 @@
     
     // Content adjustment effects
     applyFontSize(size) {
-      // Apply to all content except the widget itself
-      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
-      const contentElements = document.querySelectorAll(contentSelector);
+      // Apply to body and all content except the widget itself
+      document.body.style.fontSize = `${size}%`;
       
-      contentElements.forEach(el => {
-        el.style.fontSize = `${size}%`;
-      });
+      // Optional: Wende es auch auf alle direkten Body-Kinder an, außer dem Widget
+      const elements = document.body.children;
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        if (el.id !== 'acc-widget' && el.id !== 'acc-widget-toggle') {
+          el.style.fontSize = `${size}%`;
+        }
+      }
     },
     
     applyLineHeight(height) {
       // Apply to all content except the widget itself
-      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
+      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -310,7 +314,7 @@
     
     applyLetterSpacing(spacing) {
       // Apply to all content except the widget itself
-      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
+      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -320,7 +324,7 @@
     
     applyHelveticaFont(useHelvetica) {
       // Apply to all content except the widget itself
-      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
+      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -330,7 +334,7 @@
     
     applyTextAlignment(align) {
       // Apply to all content except the widget itself
-      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
+      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -837,6 +841,12 @@
       button.style.cursor = 'pointer';
       button.style.zIndex = '999999';
       button.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+      button.style.position = 'fixed';
+      button.style.bottom = '20px';
+      button.style.right = '20px'; // Statt left
+      button.style.width = '50px';
+      button.style.height = '50px';
+      button.style.fontSize = '24px';
       
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
