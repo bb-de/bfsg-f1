@@ -290,7 +290,7 @@
     // Content adjustment effects
     applyFontSize(size) {
       // Apply to all content except the widget itself
-      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
+      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -300,7 +300,7 @@
     
     applyLineHeight(height) {
       // Apply to all content except the widget itself
-      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
+      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -310,7 +310,7 @@
     
     applyLetterSpacing(spacing) {
       // Apply to all content except the widget itself
-      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
+      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -320,7 +320,7 @@
     
     applyHelveticaFont(useHelvetica) {
       // Apply to all content except the widget itself
-      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
+      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -330,7 +330,7 @@
     
     applyTextAlignment(align) {
       // Apply to all content except the widget itself
-      const contentSelector = '#demo-website, body > *:not(#acc-widget, #acc-widget-toggle)';
+      const contentSelector = 'body > *:not(#acc-widget, #acc-widget-toggle), body #site-wrapper, body #page-wrapper';
       const contentElements = document.querySelectorAll(contentSelector);
       
       contentElements.forEach(el => {
@@ -835,7 +835,7 @@
       button.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
       button.style.border = 'none';
       button.style.cursor = 'pointer';
-      button.style.zIndex = '9999';
+      button.style.zIndex = '999999';
       button.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
       
       button.innerHTML = `
@@ -884,7 +884,7 @@
       widget.style.width = '320px';
       widget.style.backgroundColor = 'white';
       widget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-      widget.style.zIndex = '9998';
+      widget.style.zIndex = '999998';
       widget.style.overflowY = 'auto';
       widget.style.transform = 'translateX(100%)';
       widget.style.transition = 'transform 0.3s ease-in-out';
