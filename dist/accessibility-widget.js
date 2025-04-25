@@ -9,6 +9,45 @@
   window.AccessibilityWidget = null;
   window.AccessibilityStore = null;
   window.AccessibilityEffects = null;
+  
+  // Add CSS for micro-animations
+  const animationStyle = document.createElement('style');
+  animationStyle.id = 'accessibility-animations';
+  animationStyle.innerHTML = `
+    @keyframes button-activate {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(74, 108, 247, 0); }
+      50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(74, 108, 247, 0.3); }
+      100% { transform: scale(1); box-shadow: 0 0 5px rgba(74, 108, 247, 0.2); }
+    }
+    @keyframes button-deactivate {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    @keyframes content-highlight {
+      0% { background-color: rgba(74, 108, 247, 0); }
+      30% { background-color: rgba(74, 108, 247, 0.2); }
+      100% { background-color: rgba(74, 108, 247, 0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .accessibility-button-active {
+      animation: button-activate 0.5s ease forwards !important;
+    }
+    .accessibility-button-inactive {
+      animation: button-deactivate 0.3s ease forwards !important;
+    }
+    .accessibility-highlight {
+      animation: content-highlight 1s ease forwards !important;
+    }
+    .accessibility-pulse {
+      animation: pulse 2s infinite !important;
+    }
+  `;
+  document.head.appendChild(animationStyle);
   // Store all user preferences
   const AccessibilityStore = {
     settings: {
@@ -797,6 +836,7 @@
       button.style.border = 'none';
       button.style.cursor = 'pointer';
       button.style.zIndex = '9999';
+      button.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
       
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -807,6 +847,23 @@
       button.addEventListener('click', () => {
         AccessibilityStore.update('isOpen', true);
         this.openWidget();
+        
+        // Add micro-animation
+        button.classList.add('accessibility-pulse');
+        setTimeout(() => {
+          button.classList.remove('accessibility-pulse');
+        }, 1000);
+      });
+      
+      // Add hover animation
+      button.addEventListener('mouseover', () => {
+        button.style.transform = 'scale(1.1)';
+        button.style.boxShadow = '0 6px 25px rgba(0, 0, 0, 0.2)';
+      });
+      
+      button.addEventListener('mouseout', () => {
+        button.style.transform = 'scale(1)';
+        button.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
       });
       
       document.body.appendChild(button);
@@ -1113,6 +1170,22 @@
           AccessibilityStore.update('highlightHeadings', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // If enabled, add highlight effect to headings
+          if (newValue) {
+            const headings = document.querySelectorAll('#demo-website h1, #demo-website h2, #demo-website h3, #demo-website h4, #demo-website h5, #demo-website h6');
+            headings.forEach(heading => {
+              heading.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                heading.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Highlight Links - button style
@@ -1121,6 +1194,22 @@
           AccessibilityStore.update('highlightLinks', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // If enabled, add highlight effect to links
+          if (newValue) {
+            const links = document.querySelectorAll('#demo-website a');
+            links.forEach(link => {
+              link.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                link.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Text Magnifier - button style
@@ -1129,6 +1218,11 @@
           AccessibilityStore.update('textMagnifier', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
         });
         
         // Content Scaling - button style
@@ -1137,6 +1231,11 @@
           AccessibilityStore.update('contentScaling', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
         });
       }, 0);
       
@@ -1226,12 +1325,12 @@
           <div style="margin-top: 24px; padding: 12px; background-color: #F8FAFC; border-radius: 4px; border: 1px solid #E2E8F0;">
             <p style="font-size: 14px; color: #4B5563; margin-bottom: 8px;">Color Mode Preview:</p>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <div style="width: 32px; height: 32px; background-color: #4A6CF7; border-radius: 4px;"></div>
-              <div style="width: 32px; height: 32px; background-color: #00B074; border-radius: 4px;"></div>
-              <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 4px;"></div>
-              <div style="width: 32px; height: 32px; background-color: #F59E0B; border-radius: 4px;"></div>
-              <div style="width: 32px; height: 32px; background-color: #F43F5E; border-radius: 4px;"></div>
-              <div style="width: 32px; height: 32px; background-color: #1E293B; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #4A6CF7; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #00B074; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #10B981; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #F59E0B; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #F43F5E; border-radius: 4px;"></div>
+              <div class="color-example" style="width: 32px; height: 32px; background-color: #1E293B; border-radius: 4px;"></div>
             </div>
           </div>
         </div>
@@ -1245,6 +1344,22 @@
           AccessibilityStore.update('darkContrast', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Light Contrast - button style
@@ -1253,6 +1368,22 @@
           AccessibilityStore.update('lightContrast', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // High Contrast - button style
@@ -1261,6 +1392,22 @@
           AccessibilityStore.update('highContrast', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // High Saturation - button style
@@ -1269,6 +1416,22 @@
           AccessibilityStore.update('highSaturation', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Low Saturation - button style
@@ -1277,6 +1440,22 @@
           AccessibilityStore.update('lowSaturation', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Monochrome - button style
@@ -1285,6 +1464,22 @@
           AccessibilityStore.update('monochrome', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Update color preview with animation
+          if (newValue) {
+            const colorSquares = document.querySelectorAll('#color-tab-panel .color-example');
+            colorSquares.forEach(square => {
+              square.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                square.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
       }, 0);
       
@@ -1408,6 +1603,20 @@
           AccessibilityStore.update('muteSounds', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Add visual feedback for sound muting
+          if (newValue) {
+            const audioIcon = this.querySelector('svg');
+            audioIcon.classList.add('accessibility-pulse');
+            setTimeout(() => {
+              audioIcon.classList.remove('accessibility-pulse');
+            }, 1000);
+          }
         });
         
         // Hide Images - button style
@@ -1416,6 +1625,22 @@
           AccessibilityStore.update('hideImages', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // Add visual feedback for hiding images
+          if (newValue) {
+            const images = document.querySelectorAll('#demo-website img');
+            images.forEach(img => {
+              img.classList.add('accessibility-highlight');
+              setTimeout(() => {
+                img.classList.remove('accessibility-highlight');
+              }, 1000);
+            });
+          }
         });
         
         // Reading Mask - button style
@@ -1424,6 +1649,11 @@
           AccessibilityStore.update('readingMask', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
         });
         
         // Reading Guide - button style
@@ -1432,6 +1662,11 @@
           AccessibilityStore.update('readingGuide', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
         });
         
         // Stop Animations - button style
@@ -1440,6 +1675,11 @@
           AccessibilityStore.update('stopAnimations', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
         });
         
         // Highlight Focus - button style
@@ -1448,6 +1688,25 @@
           AccessibilityStore.update('highlightFocus', newValue);
           this.style.backgroundColor = newValue ? '#4A6CF7' : '#f1f5f9';
           this.style.color = newValue ? 'white' : 'black';
+          
+          // Add micro-animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add(newValue ? 'accessibility-button-active' : 'accessibility-button-inactive');
+          
+          // If enabled, briefly highlight focusable elements
+          if (newValue) {
+            const focusables = document.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            focusables.forEach((el, index) => {
+              // Stagger the animations for a wave effect
+              setTimeout(() => {
+                el.classList.add('accessibility-highlight');
+                setTimeout(() => {
+                  el.classList.remove('accessibility-highlight');
+                }, 500);
+              }, index * 50);
+            });
+          }
         });
         
         // Cursor Options
@@ -1459,6 +1718,11 @@
           document.getElementById('big-black-cursor').style.color = 'black';
           document.getElementById('big-white-cursor').style.backgroundColor = 'white';
           document.getElementById('big-white-cursor').style.color = 'black';
+          
+          // Add animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add('accessibility-button-active');
         });
         
         document.getElementById('big-black-cursor').addEventListener('click', function() {
@@ -1469,6 +1733,11 @@
           document.getElementById('default-cursor').style.color = 'black';
           document.getElementById('big-white-cursor').style.backgroundColor = 'white';
           document.getElementById('big-white-cursor').style.color = 'black';
+          
+          // Add animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add('accessibility-button-active');
         });
         
         document.getElementById('big-white-cursor').addEventListener('click', function() {
@@ -1479,6 +1748,11 @@
           document.getElementById('default-cursor').style.color = 'black';
           document.getElementById('big-black-cursor').style.backgroundColor = 'white';
           document.getElementById('big-black-cursor').style.color = 'black';
+          
+          // Add animation
+          this.classList.remove('accessibility-button-active', 'accessibility-button-inactive');
+          void this.offsetWidth; // Trigger reflow to restart animation
+          this.classList.add('accessibility-button-active');
         });
         
         // Hover Highlight
@@ -1514,20 +1788,35 @@
       colorTab.style.display = 'none';
       orientationTab.style.display = 'none';
       
-      // Show selected tab
+      // Show selected tab with animation
+      let selectedTab, selectedBtn;
+      
       if (tabName === 'content') {
-        contentTabBtn.classList.add('acc-tab-active');
-        contentTabBtn.style.color = '#4A6CF7';
-        contentTab.style.display = 'block';
+        selectedTab = contentTab;
+        selectedBtn = contentTabBtn;
       } else if (tabName === 'color') {
-        colorTabBtn.classList.add('acc-tab-active');
-        colorTabBtn.style.color = '#4A6CF7';
-        colorTab.style.display = 'block';
+        selectedTab = colorTab;
+        selectedBtn = colorTabBtn;
       } else if (tabName === 'orientation') {
-        orientationTabBtn.classList.add('acc-tab-active');
-        orientationTabBtn.style.color = '#4A6CF7';
-        orientationTab.style.display = 'block';
+        selectedTab = orientationTab;
+        selectedBtn = orientationTabBtn;
       }
+      
+      // Apply animation to tab button
+      selectedBtn.classList.add('acc-tab-active');
+      selectedBtn.style.color = '#4A6CF7';
+      selectedBtn.classList.add('accessibility-button-active');
+      setTimeout(() => {
+        selectedBtn.classList.remove('accessibility-button-active');
+      }, 500);
+      
+      // Display tab content with subtle fade-in effect
+      selectedTab.style.opacity = '0';
+      selectedTab.style.display = 'block';
+      setTimeout(() => {
+        selectedTab.style.transition = 'opacity 0.3s ease';
+        selectedTab.style.opacity = '1';
+      }, 50);
       
       // Update active tab in store
       AccessibilityStore.update('activeTab', tabName);
